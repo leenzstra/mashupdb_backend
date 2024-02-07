@@ -1,0 +1,22 @@
+version: 3
+
+tasks:
+  mg: 
+    cmds:
+      - migrate -source /migrations -database postgres://localhost:5432/mashupdb "{{.state}}"
+    requires:
+      vars: [state] 
+
+  nmg:
+    cmds:
+      - migrate create -ext sql -dir migrations -seq "{{.mig}}"
+    requires:
+      vars: [mig] 
+
+  run:
+    cmds:
+      - docker-compose up
+
+  build:
+    cmds:
+      - docker-compose build
